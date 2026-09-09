@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Shack of Sits</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html">SHACK OF SITS</a>
+  <nav class="site-nav">
+    <a href="index.html">Seat Yourself</a>
+    <a href="our-selection.html">Our Selection</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="our-story.html">Our Story</a>
+    <a href="shop.html">Shop</a>
+    <a href="contact.html" class="active">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Contact</h1>
+    <p class="tagline">Reach Our Rear End</p>
+    <p>Questions about a piece in Our Selection, press inquiries, or just want to talk seats? We're listening.</p>
+  </section>
+
+  <section>
+    <form id="contact-form" class="cert-list" style="text-align:left;">
+      <input type="hidden" name="access_key" value="REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY">
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+      <label for="name">Name</label><br>
+      <input type="text" id="name" name="name" required
+        style="width:100%;padding:.6rem;margin:.3rem 0 1rem;border:1px solid var(--tan);border-radius:6px;">
+
+      <label for="email">Email</label><br>
+      <input type="email" id="email" name="email" required
+        style="width:100%;padding:.6rem;margin:.3rem 0 1rem;border:1px solid var(--tan);border-radius:6px;">
+
+      <label for="message">Message</label><br>
+      <textarea id="message" name="message" rows="5" required
+        style="width:100%;padding:.6rem;margin:.3rem 0 1rem;border:1px solid var(--tan);border-radius:6px;"></textarea>
+
+      <button type="submit" class="btn" style="border:none;cursor:pointer;">Send</button>
+      <p id="form-status" style="margin-top:.75rem;"></p>
+    </form>
+  </section>
+
+  <section>
+    <div class="note">
+      This form uses <strong>Web3Forms</strong> &mdash; a free relay service that emails a submission
+      straight to your inbox without your address ever appearing in the page source. No password
+      or account needed, just a free access key:
+      <ol>
+        <li>Go to <strong>web3forms.com</strong> and enter the email you want submissions sent to.</li>
+        <li>You'll get a confirmation email with an <strong>Access Key</strong>.</li>
+        <li>Paste that key into the hidden <code>access_key</code> field near the top of this file,
+          replacing <code>REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY</code>.</li>
+      </ol>
+      That's it &mdash; no server, no exposed email, and it's free for reasonable volume.
+      Once GoDaddy has a real site built (right now shackofsits.com is still just a "coming soon"
+      page), this can also be swapped for GoDaddy's own built-in contact form block if that's easier.
+    </div>
+  </section>
+</main>
+
+<footer>&copy; Shack of Sits. All seats reserved.</footer>
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const form = e.target;
+  const status = document.getElementById('form-status');
+  const data = Object.fromEntries(new FormData(form));
+  status.textContent = 'Sending...';
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify(data)
+  })
+    .then((r) => r.json())
+    .then((r) => {
+      if (r.success) {
+        status.textContent = "Sent. We'll be in touch.";
+        form.reset();
+      } else {
+        status.textContent = 'Something went wrong. Try again in a bit.';
+      }
+    })
+    .catch(() => {
+      status.textContent = 'Something went wrong. Try again in a bit.';
+    });
+});
+</script>
+</body>
+</html>
